@@ -24,5 +24,6 @@ export default defineConfig({
     action: {
       default_title: 'MySchedule ICS Downloader',
     },
+    permissions: ['downloads'],
   },
 });

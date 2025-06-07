@@ -1,3 +1,10 @@
-# WXT + React
+# MySchedule ICS Downloader
 
-This template should help get you started developing with React in WXT.
+A browser extension for downloading calendar events from Andgo MySchedule.
+
+## Stack
+* Framework https://wxt.dev/
+* Components https://ui.shadcn.com/
+* Icons https://lucide.dev/
+* Packages
+  * https://www.npmjs.com/package/ics
