@@ -1,21 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
 import { Info } from "lucide-react";
 import {downloadICS} from "@/utils/ics-example.ts";
 import {CheckboxTree} from "@/components/checkbox-tree.tsx";
 
-function LabelledCheckbox(props: { label: string}) {
-  return (
-      <div className="flex items-center space-x-2">
-        <Checkbox id="terms" />
-        <Label htmlFor="terms">{props.label}</Label>
-      </div>
-  );
-}
 
 const treeData = [
   {
@@ -58,7 +47,6 @@ const treeData = [
 
 
 function App() {
-
   const handleDownload = async () => {
     await downloadICS('ExampleEvent.ics')
   }
@@ -67,29 +55,31 @@ function App() {
     console.log("Selected nodes:", selected);
   };
 
+  if (!treeData) {
+    return (
+        <div className="flex flex-col items-stretch p-3 gap-3">
+          <Alert variant="default">
+            <Info />
+            <AlertTitle>No data found on this page</AlertTitle>
+            <AlertDescription>
+              Shifts are available to download here once you've viewed the MySchedule calendar page.
+            </AlertDescription>
+          </Alert>
+        </div>
+      )
+  }
 
   return (
     <div className="flex flex-col items-stretch p-3 gap-3">
-      <Alert variant="default">
-        <Info />
-        <AlertTitle>No data found on this page</AlertTitle>
-        <AlertDescription>
-          Shifts are available to download here once you've viewed the MySchedule calendar page.
-        </AlertDescription>
-      </Alert>
-
       <h1 className="text-lg font-semibold">
         Select months to download
       </h1>
-
       <ScrollArea className="h-[235px] rounded-md border p-3">
         <div className="flex flex-col gap-2">
           <CheckboxTree data={treeData} onChange={handleTreeChange} />
         </div>
       </ScrollArea>
-
       <Button onClick={handleDownload}>Download as .ics</Button>
-
       <div className="text-muted-foreground text-xs">
         Made with ❤️ for Emma
       </div>
