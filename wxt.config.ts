@@ -2,7 +2,7 @@ import { defineConfig } from 'wxt';
 import path from "path"
 import tailwindcss from "@tailwindcss/vite"
 
-// See https://wxt.dev/api/config.html
+// See: https://wxt.dev/api/config.html
 export default defineConfig({
   vite: () => ({
     plugins: [tailwindcss()],
@@ -12,6 +12,7 @@ export default defineConfig({
       },
     },
   }),
+  srcDir: 'src',
   modules: [
       '@wxt-dev/module-react',
       '@wxt-dev/auto-icons',
@@ -21,9 +22,7 @@ export default defineConfig({
     baseIconPath: "assets/calendar-plus.svg"
   },
   manifest: {
-    action: {
-      default_title: 'MySchedule ICS Downloader',
-    },
+    name: 'MySchedule ICS Downloader',
     permissions: ['downloads'],
   },
 });
