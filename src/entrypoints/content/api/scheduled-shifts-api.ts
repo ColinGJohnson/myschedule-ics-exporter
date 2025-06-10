@@ -27,7 +27,7 @@ export async function fetchScheduledShifts(
     }
 
     return { body: await response.json() };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(
       `Error fetching shifts for employeeId=${employeeId} year=${year} monthIndex=${monthIndex}`,
       error,

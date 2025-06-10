@@ -1,6 +1,5 @@
 import { Employee } from "@/entrypoints/content/api/employee.ts";
 import { fetchScheduledShifts } from "@/entrypoints/content/api/scheduled-shifts-api.ts";
-import { browser } from "@wxt-dev/browser";
 import {
   REFRESH_REQUEST_MESSAGE,
   RefreshMessageResponse,

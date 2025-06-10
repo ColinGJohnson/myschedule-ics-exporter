@@ -1,4 +1,4 @@
-import { createEvent, createEvents, EventAttributes } from "ics";
+import { createEvents, EventAttributes } from "ics";
 
 export async function downloadICS(filename: string, events: EventAttributes[]) {
   const data: Blob = await new Promise((resolve, reject) => {

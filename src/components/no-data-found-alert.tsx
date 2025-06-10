@@ -1,3 +1,4 @@
+import React from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert.tsx";
 import { Info } from "lucide-react";
 

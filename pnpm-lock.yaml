@@ -28,9 +28,6 @@ importers:
       "@types/chrome":
         specifier: ^0.0.326
         version: 0.0.326
-      "@wxt-dev/browser":
-        specifier: ^0.0.326
-        version: 0.0.326
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1

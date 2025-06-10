@@ -27,7 +27,7 @@ export function CheckboxTree({ data, checked, setChecked }: CheckboxTreeProps) {
     children?: TreeNode[],
   ) => {
     const updateChildren = (nodes: TreeNode[] | undefined, state: boolean) => {
-      let updates: Record<string, boolean> = {};
+      const updates: Record<string, boolean> = {};
       nodes?.forEach((node) => {
         updates[node.id] = state;
         Object.assign(updates, updateChildren(node.children, state));

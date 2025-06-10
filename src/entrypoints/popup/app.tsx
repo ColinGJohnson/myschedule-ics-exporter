@@ -1,3 +1,4 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -90,7 +91,12 @@ function CalendarExporter(props: {
       </Button>
       <p>
         Once you download events, they will not update automatically! &nbsp;
-        <a href="https://www.cgj.dev/" target="_blank" className="underline">
+        <a
+          href="https://www.cgj.dev/"
+          target="_blank"
+          rel="noreferrer"
+          className="underline"
+        >
           Need help?
         </a>
       </p>
