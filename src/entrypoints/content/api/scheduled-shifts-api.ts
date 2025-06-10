@@ -34,7 +34,7 @@ function buildFetchUrl(employeeId: number, year: number, monthIndex: number, lim
   const firstDayOfMonth = new Date(year, monthIndex, 1);
 
   // Passing 0 as the date gives the last day of the previous month.
-  const lastDayOfMonth = new Date(firstDayOfMonth.getFullYear(), firstDayOfMonth.getMonth() + 1, 0);
+  const lastDayOfMonth = new Date(firstDayOfMonth.getFullYear() + 1, firstDayOfMonth.getMonth(), 0);
 
   // API expects just the date part, so drop the time and time zone
   url.searchParams.append("start_date", firstDayOfMonth.toISOString().split("T")[0]);

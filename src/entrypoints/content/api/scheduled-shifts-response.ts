@@ -14,7 +14,7 @@ export interface ScheduledShiftsData {
   meta: Meta;
 }
 
-interface PayrollCode {
+export interface PayrollCode {
   id: number;
   display_code: string;
   desc: string;
@@ -67,7 +67,7 @@ interface SchedulingTeam {
   visible_in_regional_dashboard: boolean;
 }
 
-interface ScheduledShift {
+export interface ScheduledShift {
   display_str: string;
   id: number;
   shift_icon: string;
