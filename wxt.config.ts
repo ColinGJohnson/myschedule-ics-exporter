@@ -1,6 +1,6 @@
-import { defineConfig } from 'wxt';
-import path from "path"
-import tailwindcss from "@tailwindcss/vite"
+import { defineConfig } from "wxt";
+import path from "path";
+import tailwindcss from "@tailwindcss/vite";
 
 // See: https://wxt.dev/api/config.html
 export default defineConfig({
@@ -12,17 +12,14 @@ export default defineConfig({
       },
     },
   }),
-  srcDir: 'src',
-  modules: [
-      '@wxt-dev/module-react',
-      '@wxt-dev/auto-icons',
-  ],
+  srcDir: "src",
+  modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons"],
   autoIcons: {
     grayscaleOnDevelopment: false,
-    baseIconPath: "assets/calendar-plus.svg"
+    baseIconPath: "assets/calendar-plus.svg",
   },
   manifest: {
-    name: 'MySchedule ICS Downloader',
-    permissions: ['downloads'],
+    name: "MySchedule ICS Downloader",
+    permissions: ["downloads"],
   },
 });

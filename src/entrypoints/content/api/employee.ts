@@ -46,4 +46,3 @@ interface HsmsUser {
 interface Links {
   department: string;
 }
-

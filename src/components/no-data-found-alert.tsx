@@ -1,14 +1,14 @@
-import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert.tsx";
-import {Info} from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert.tsx";
+import { Info } from "lucide-react";
 
 export function NoDataFoundAlert() {
   return (
-      <Alert variant="default">
-        <Info/>
-        <AlertTitle>No shifts found on this page</AlertTitle>
-        <AlertDescription>
-          Ensure you are logged in to MySchedule and on the shift calendar page.
-        </AlertDescription>
-      </Alert>
-  )
+    <Alert variant="default">
+      <Info />
+      <AlertTitle>No shifts found on this page</AlertTitle>
+      <AlertDescription>
+        Ensure you are logged in to MySchedule and on the shift calendar page.
+      </AlertDescription>
+    </Alert>
+  );
 }

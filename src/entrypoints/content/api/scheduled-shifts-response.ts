@@ -1,4 +1,3 @@
-
 /**
  * Observed in response from https://myschedule.islandhealth.ca//api/v1/employee/${employeeId}/scheduled-shifts/${params}
  */
@@ -52,7 +51,6 @@ interface RegionDepartment {
   };
 }
 
-
 interface Facility {
   id: number;
   name: string;
@@ -89,4 +87,3 @@ interface Meta {
   total_results: number;
   total_pages: number;
 }
-

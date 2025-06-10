@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { browser, Browser } from '@wxt-dev/browser';
+import { browser, Browser } from "@wxt-dev/browser";
 
 export function useContentScriptData<T>(message: any) {
   const [data, setData] = useState<T>();
@@ -11,7 +11,10 @@ export function useContentScriptData<T>(message: any) {
     setError(undefined);
 
     try {
-      const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
+      const [tab] = await browser.tabs.query({
+        active: true,
+        currentWindow: true,
+      });
 
       if (tab?.id) {
         browser.tabs.sendMessage(tab.id, message, (response) => {
@@ -27,9 +30,10 @@ export function useContentScriptData<T>(message: any) {
         setError("No active tab found.");
         setIsLoading(false);
       }
-
     } catch (error) {
-      setError(error instanceof Error ? error.message : "An unknown error occurred.");
+      setError(
+        error instanceof Error ? error.message : "An unknown error occurred.",
+      );
       setIsLoading(false);
     }
   }, [message]);
