@@ -1,0 +1,31 @@
+name: Build And Upload Extension Zip Via Artifact
+
+on:
+  push:
+    branches:
+      - main
+
+# https://wxt.dev/guide/essentials/publishing.html#github-action
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Zip extensions
+        run: |
+          pnpm zip
+          pnpm zip:firefox
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: .output/*
