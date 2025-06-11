@@ -1,4 +1,4 @@
-name: Build And Upload Extension Zip Via Artifact
+name: Build And Upload Zip
 
 on:
   push:
@@ -30,4 +30,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          path: .output/*
+          path: .output/*.zip
+          include-hidden-files: true
