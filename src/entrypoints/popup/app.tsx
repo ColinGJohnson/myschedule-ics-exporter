@@ -21,10 +21,9 @@ import { NoDataFoundAlert } from "@/components/no-data-found-alert.tsx";
 import { LoadingSpinner } from "@/components/loading-spinner.tsx";
 
 export default function App() {
-  const { response, error, isLoading, refresh } =
-    useContentScriptData<RefreshMessageResponse>({
-      type: REFRESH_REQUEST_MESSAGE,
-    });
+  const { response, error, isLoading, refresh } = useContentScriptData<RefreshMessageResponse>({
+    type: REFRESH_REQUEST_MESSAGE,
+  });
 
   let content: ReactNode;
   if (isLoading) {
@@ -32,25 +31,20 @@ export default function App() {
   } else if (error || response?.error || !response?.shifts?.data) {
     content = <NoDataFoundAlert />;
   } else {
-    content = (
-      <CalendarExporter refresh={refresh} schedule={response.shifts.data} />
-    );
+    content = <CalendarExporter refresh={refresh} schedule={response.shifts.data} />;
   }
 
   return (
-    <div className="min-h-50 min-w-90 flex flex-col items-stretch p-3 gap-3">
+    <div className="flex min-h-50 min-w-90 flex-col items-stretch gap-3 p-3">
       <h1 className="text-lg font-semibold">MySchedule Calendar Exporter</h1>
-      <div className="flex flex-col grow">{content}</div>
+      <div className="flex grow flex-col">{content}</div>
       <Separator />
       <div className="text-muted-foreground text-xs">Made with ❤️ for Emma</div>
     </div>
   );
 }
 
-function CalendarExporter(props: {
-  refresh: () => void;
-  schedule: ScheduledShiftsData;
-}) {
+function CalendarExporter(props: { refresh: () => void; schedule: ScheduledShiftsData }) {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const events = convertToEventAttributes(props.schedule);
 
@@ -70,18 +64,10 @@ function CalendarExporter(props: {
     <div className="flex flex-col gap-3">
       <ScrollArea className="h-[235px] rounded-md border p-2">
         <div className="flex flex-col gap-2">
-          <CheckboxTree
-            data={eventsTreeData}
-            checked={checked}
-            setChecked={setChecked}
-          />
+          <CheckboxTree data={eventsTreeData} checked={checked} setChecked={setChecked} />
         </div>
       </ScrollArea>
-      <Button
-        onClick={props.refresh}
-        variant="outline"
-        className="font-semibold shadow"
-      >
+      <Button onClick={props.refresh} variant="outline" className="font-semibold shadow">
         <RotateCw />
         Refresh shifts
       </Button>
@@ -91,12 +77,7 @@ function CalendarExporter(props: {
       </Button>
       <p>
         Once you download events, they will not update automatically! &nbsp;
-        <a
-          href="https://www.cgj.dev/"
-          target="_blank"
-          rel="noreferrer"
-          className="underline"
-        >
+        <a href="https://www.cgj.dev/" target="_blank" rel="noreferrer" className="underline">
           Need help?
         </a>
       </p>
@@ -115,21 +96,18 @@ function groupEventsByMonth(events: EventAttributes[]) {
 }
 
 function buildSubtreeForMonth(month: string, events?: EventAttributes[]) {
-  return !events || events.length === 0
-    ? undefined
-    : {
-        id: month,
-        label: month,
-        children: events.map((event) => ({
-          id: event.uid!,
-          label: `${event.title!} ${new Date(event.start as number).toLocaleString()}`,
-        })),
-      };
+  if (!events || events.length === 0) return undefined;
+  return {
+    id: month,
+    label: month,
+    children: events.map((event) => ({
+      id: event.uid!,
+      label: `${event.title!} ${new Date(event.start as number).toLocaleString()}`,
+    })),
+  };
 }
 
-function convertToEventAttributes(
-  schedule: ScheduledShiftsData,
-): EventAttributes[] {
+function convertToEventAttributes(schedule: ScheduledShiftsData): EventAttributes[] {
   return schedule.scheduled_shifts
     .filter((shift) => isWorkingShift(schedule.payroll_codes, shift))
     .map((shift) => convertToEventAttribute(schedule, shift));
@@ -142,9 +120,7 @@ function convertToEventAttribute(
   const department = schedule.region_departments.find(
     (department) => department.id === shift.department,
   );
-  const occupation = schedule.occupations.find(
-    (occupation) => occupation.id === shift.occupation,
-  );
+  const occupation = schedule.occupations.find((occupation) => occupation.id === shift.occupation);
   return {
     start: new Date(shift.start_timestamp).getTime(),
     end: new Date(shift.end_timestamp).getTime(),
@@ -160,8 +136,6 @@ function convertToEventAttribute(
 }
 
 function isWorkingShift(payroll_codes: PayrollCode[], shift: ScheduledShift) {
-  const payrollCode = payroll_codes.find(
-    (code) => code.id === shift.payroll_code,
-  );
+  const payrollCode = payroll_codes.find((code) => code.id === shift.payroll_code);
   return payrollCode?.desc.toLowerCase().includes("vacation");
 }

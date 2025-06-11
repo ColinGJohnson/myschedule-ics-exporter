@@ -24,11 +24,7 @@ function Checkbox({
         data-slot="checkbox-indicator"
         className="flex items-center justify-center text-current transition-none"
       >
-        {partiallyChecked ? (
-          <Minus className="size-3.5" />
-        ) : (
-          <CheckIcon className="size-3.5" />
-        )}
+        {partiallyChecked ? <Minus className="size-3.5" /> : <CheckIcon className="size-3.5" />}
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );

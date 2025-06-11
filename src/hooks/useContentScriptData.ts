@@ -30,9 +30,7 @@ export function useContentScriptData<T>(message: unknown) {
         setIsLoading(false);
       }
     } catch (error) {
-      setError(
-        error instanceof Error ? error.message : "An unknown error occurred.",
-      );
+      setError(error instanceof Error ? error.message : "An unknown error occurred.");
       setIsLoading(false);
     }
   }, [message]);

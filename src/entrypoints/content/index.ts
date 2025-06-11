@@ -5,8 +5,7 @@ import {
   RefreshMessageResponse,
 } from "@/entrypoints/content/refresh-message-response.ts";
 
-const cache: Map<string, { data: RefreshMessageResponse; timestamp: number }> =
-  new Map();
+const cache: Map<string, { data: RefreshMessageResponse; timestamp: number }> = new Map();
 const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes in milliseconds
 
 export default defineContentScript({
@@ -19,11 +18,7 @@ export default defineContentScript({
     const employee = getEmployeeData();
 
     browser.runtime.onMessage.addListener(
-      (
-        message,
-        sender,
-        sendResponse: (response: RefreshMessageResponse) => void,
-      ) => {
+      (message, sender, sendResponse: (response: RefreshMessageResponse) => void) => {
         if (message?.type !== REFRESH_REQUEST_MESSAGE) {
           return;
         }
@@ -45,11 +40,7 @@ export default defineContentScript({
         }
 
         // Fetch and cache a new response
-        fetchScheduledShifts(
-          employee.id,
-          today.getFullYear(),
-          today.getMonth() + 1,
-        )
+        fetchScheduledShifts(employee.id, today.getFullYear(), today.getMonth() + 1)
           .then((ApiResponse) => {
             const refreshResponse: RefreshMessageResponse = {
               employee: employee,
@@ -64,10 +55,7 @@ export default defineContentScript({
             sendResponse(refreshResponse);
           })
           .catch((error) => {
-            console.error(
-              "An unexpected error occurred while fetching shifts.",
-              error,
-            );
+            console.error("An unexpected error occurred while fetching shifts.", error);
             sendResponse({ error: true });
           });
 
@@ -80,9 +68,6 @@ export default defineContentScript({
 });
 
 function getEmployeeData() {
-  const employeeBase64 =
-    document.getElementById("react")?.dataset?.targetEmployee;
-  return employeeBase64
-    ? (JSON.parse(atob(employeeBase64)) as Employee)
-    : undefined;
+  const employeeBase64 = document.getElementById("react")?.dataset?.targetEmployee;
+  return employeeBase64 ? (JSON.parse(atob(employeeBase64)) as Employee) : undefined;
 }
