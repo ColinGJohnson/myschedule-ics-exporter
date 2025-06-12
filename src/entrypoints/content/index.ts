@@ -40,7 +40,7 @@ export default defineContentScript({
         }
 
         // Fetch and cache a new response
-        fetchScheduledShifts(employee.id, today.getFullYear(), today.getMonth() + 1)
+        fetchScheduledShifts(employee.id, today.getFullYear(), today.getMonth())
           .then((ApiResponse) => {
             const refreshResponse: RefreshMessageResponse = {
               employee: employee,

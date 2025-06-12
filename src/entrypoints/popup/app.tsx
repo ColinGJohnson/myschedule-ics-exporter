@@ -100,10 +100,12 @@ function buildSubtreeForMonth(month: string, events?: EventAttributes[]) {
   return {
     id: month,
     label: month,
-    children: events.map((event) => ({
-      id: event.uid!,
-      label: `${event.title!} ${new Date(event.start as number).toLocaleString()}`,
-    })),
+    children: events
+      .sort((a, b) => (a.start as number) - (b.start as number))
+      .map((event) => ({
+        id: event.uid!,
+        label: `${event.title!} ${new Date(event.start as number).toLocaleString()}`,
+      })),
   };
 }
 
@@ -121,11 +123,13 @@ function convertToEventAttribute(
     (department) => department.id === shift.department,
   );
   const occupation = schedule.occupations.find((occupation) => occupation.id === shift.occupation);
+  const payrollCode = schedule.payroll_codes.find((code) => code.id === shift.payroll_code);
+  const classification = [...new Set(payrollCode?.classification ?? [])].join(",");
   return {
     start: new Date(shift.start_timestamp).getTime(),
     end: new Date(shift.end_timestamp).getTime(),
-    title: `${occupation?.desc} ${shift.shift_class} Shift ${shift.shift_icon}`,
-    description: `${shift.duration_hours} hours ${shift.payroll_code}.`,
+    title: `${occupation?.desc} ${shift.shift_icon}`,
+    description: `${shift.duration_hours} hours ${payrollCode?.desc} ${classification}.`,
     uid: shift.id.toString(),
     categories: [shift.shift_icon],
     status: "CONFIRMED",
