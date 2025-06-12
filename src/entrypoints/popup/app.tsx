@@ -137,5 +137,9 @@ function convertToEventAttribute(
 
 function isWorkingShift(payroll_codes: PayrollCode[], shift: ScheduledShift) {
   const payrollCode = payroll_codes.find((code) => code.id === shift.payroll_code);
-  return payrollCode?.desc.toLowerCase().includes("vacation");
+  return (
+    payrollCode?.classification.find((code) => {
+      return code.toLowerCase() === "planned leave";
+    }) === undefined
+  );
 }
