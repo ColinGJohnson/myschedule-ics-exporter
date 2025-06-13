@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -11,7 +11,6 @@ import {
   REFRESH_REQUEST_MESSAGE,
   RefreshMessageResponse,
 } from "@/entrypoints/content/refresh-message-response.ts";
-import { ReactNode, useState } from "react";
 import {
   PayrollCode,
   ScheduledShift,
@@ -19,6 +18,7 @@ import {
 } from "@/entrypoints/content/api/scheduled-shifts-response.ts";
 import { NoDataFoundAlert } from "@/components/no-data-found-alert.tsx";
 import { LoadingSpinner } from "@/components/loading-spinner.tsx";
+import { Checkbox } from "@/components/ui/checkbox.tsx";
 
 export default function App() {
   const { response, error, isLoading, refresh } = useContentScriptData<RefreshMessageResponse>({
@@ -46,6 +46,7 @@ export default function App() {
 
 function CalendarExporter(props: { refresh: () => void; schedule: ScheduledShiftsData }) {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
+
   const events = convertToEventAttributes(props.schedule);
 
   const eventsTreeData: TreeNode[] = Object.entries(groupEventsByMonth(events))
@@ -60,10 +61,29 @@ function CalendarExporter(props: { refresh: () => void; schedule: ScheduledShift
     }
   };
 
+  const handleCheckAll = (checked: boolean) => {
+    setChecked(
+      events.reduce(
+        (acc, event) => {
+          acc[event.uid!] = checked;
+          return acc;
+        },
+        {} as Record<string, boolean>,
+      ),
+    );
+  };
+
   return (
     <div className="flex flex-col gap-3">
-      <ScrollArea className="h-[235px] rounded-md border p-2">
+      <ScrollArea className="h-[300px] rounded-md border p-2">
         <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <Checkbox id="select-all" onCheckedChange={handleCheckAll} className="ml-7" />
+            <label htmlFor="select-all" className="cursor-pointer">
+              Select all
+            </label>
+          </div>
+          <Separator />
           <CheckboxTree data={eventsTreeData} checked={checked} setChecked={setChecked} />
         </div>
       </ScrollArea>
