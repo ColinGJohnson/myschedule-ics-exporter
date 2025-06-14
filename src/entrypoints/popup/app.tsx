@@ -19,6 +19,7 @@ import {
 import { NoDataFoundAlert } from "@/components/no-data-found-alert.tsx";
 import { LoadingSpinner } from "@/components/loading-spinner.tsx";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
+import { Employee } from "@/entrypoints/content/api/employee.ts";
 
 export default function App() {
   const { response, error, isLoading, refresh } = useContentScriptData<RefreshMessageResponse>({
@@ -28,10 +29,16 @@ export default function App() {
   let content: ReactNode;
   if (isLoading) {
     content = <LoadingSpinner />;
-  } else if (error || response?.error || !response?.shifts?.data) {
+  } else if (error || response?.error || !response?.shifts?.data || !response?.employee) {
     content = <NoDataFoundAlert />;
   } else {
-    content = <CalendarExporter refresh={refresh} schedule={response.shifts.data} />;
+    content = (
+      <CalendarExporter
+        refresh={refresh}
+        schedule={response.shifts.data}
+        employee={response.employee}
+      />
+    );
   }
 
   return (
@@ -44,7 +51,11 @@ export default function App() {
   );
 }
 
-function CalendarExporter(props: { refresh: () => void; schedule: ScheduledShiftsData }) {
+function CalendarExporter(props: {
+  refresh: () => void;
+  schedule: ScheduledShiftsData;
+  employee: Employee;
+}) {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
 
   const events = convertToEventAttributes(props.schedule);
@@ -75,6 +86,7 @@ function CalendarExporter(props: { refresh: () => void; schedule: ScheduledShift
 
   return (
     <div className="flex flex-col gap-3">
+      <p>Viewing shifts for {props.employee.work_email}</p>
       <ScrollArea className="h-[300px] rounded-md border p-2">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
