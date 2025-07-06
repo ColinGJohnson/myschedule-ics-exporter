@@ -1,8 +1,8 @@
 # MySchedule ICS Downloader
 
-A browser extension for downloading calendar events from the Island Health MySchedule website.
+A browser extension for downloading calendar events from [Island Health's MySchedule website](https://myschedule.islandhealth.ca/).
 
-## Stack
+## Tech Stack
 
 - Framework https://wxt.dev/
 - Components https://ui.shadcn.com/
