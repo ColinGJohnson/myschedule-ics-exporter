@@ -30,7 +30,7 @@ export default defineContentScript({
         }
 
         const today = new Date();
-        const cacheKey = `${employee.id}-${today.getFullYear()}-${today.getMonth() + 1}`;
+        const cacheKey = `${employee.id}-${today.getFullYear()}-${today.getMonth()}`;
         const cachedData = cache.get(cacheKey);
 
         // Check if cached data exists and is still valid

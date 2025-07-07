@@ -20,6 +20,8 @@ import { NoDataFoundAlert } from "@/components/no-data-found-alert.tsx";
 import { LoadingSpinner } from "@/components/loading-spinner.tsx";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
 import { Employee } from "@/entrypoints/content/api/employee.ts";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label.tsx";
 
 export default function App() {
   const { response, error, isLoading, refresh } = useContentScriptData<RefreshMessageResponse>({
@@ -57,8 +59,9 @@ function CalendarExporter(props: {
   employee: Employee;
 }) {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
+  const [includePlannedLeave, setIncludePlannedLeave] = useState(false);
 
-  const events = convertToEventAttributes(props.schedule);
+  const events = convertToEventAttributes(props.schedule, includePlannedLeave);
 
   const eventsTreeData: TreeNode[] = Object.entries(groupEventsByMonth(events))
     .map(([month, events]) => buildSubtreeForMonth(month, events))
@@ -87,6 +90,14 @@ function CalendarExporter(props: {
   return (
     <div className="flex flex-col gap-3">
       <p>Viewing shifts for {props.employee.work_email}</p>
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="include-planned-leave"
+          checked={includePlannedLeave}
+          onCheckedChange={setIncludePlannedLeave}
+        />
+        <Label htmlFor="include-planned-leave">Include planned leave</Label>
+      </div>
       <ScrollArea className="h-[300px] rounded-md border p-2">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
@@ -141,9 +152,12 @@ function buildSubtreeForMonth(month: string, events?: EventAttributes[]) {
   };
 }
 
-function convertToEventAttributes(schedule: ScheduledShiftsData): EventAttributes[] {
+function convertToEventAttributes(
+  schedule: ScheduledShiftsData,
+  includePlannedLeave: boolean,
+): EventAttributes[] {
   return schedule.scheduled_shifts
-    .filter((shift) => isWorkingShift(schedule.payroll_codes, shift))
+    .filter((shift) => includePlannedLeave || isWorkingShift(schedule.payroll_codes, shift))
     .map((shift) => convertToEventAttribute(schedule, shift));
 }
 
@@ -171,7 +185,15 @@ function convertToEventAttribute(
   };
 }
 
-function isWorkingShift(payroll_codes: PayrollCode[], shift: ScheduledShift) {
+/**
+ * Determines if a scheduled shift is a working shift by checking if its payroll code classification
+ * includes "planned leave".
+ *
+ * @param payroll_codes - An array of payroll code objects used to classify shifts.
+ * @param shift - The scheduled shift object that contains details including its payroll code.
+ * @return True if the shift is classified as a working shift, otherwise false.
+ */
+function isWorkingShift(payroll_codes: PayrollCode[], shift: ScheduledShift): boolean {
   const payrollCode = payroll_codes.find((code) => code.id === shift.payroll_code);
   return (
     payrollCode?.classification.find((code) => {
