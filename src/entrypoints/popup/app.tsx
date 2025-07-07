@@ -1,27 +1,13 @@
-import React, { ReactNode, useState } from "react";
-import { Button } from "@/components/ui/button";
+import React, { ReactNode } from "react";
 import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { CalendarArrowDown, RotateCw } from "lucide-react";
-import { downloadICS } from "@/utils/download-ics.ts";
-import { CheckboxTree, TreeNode } from "@/components/checkbox-tree.tsx";
 import { useContentScriptData } from "@/hooks/useContentScriptData.ts";
-import { EventAttributes } from "ics";
 import {
   REFRESH_REQUEST_MESSAGE,
   RefreshMessageResponse,
 } from "@/entrypoints/content/refresh-message-response.ts";
-import {
-  PayrollCode,
-  ScheduledShift,
-  ScheduledShiftsData,
-} from "@/entrypoints/content/api/scheduled-shifts-response.ts";
 import { NoDataFoundAlert } from "@/components/no-data-found-alert.tsx";
 import { LoadingSpinner } from "@/components/loading-spinner.tsx";
-import { Checkbox } from "@/components/ui/checkbox.tsx";
-import { Employee } from "@/entrypoints/content/api/employee.ts";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label.tsx";
+import { CalendarExporter } from "@/entrypoints/popup/calendar-exporter.tsx";
 
 export default function App() {
   const { response, error, isLoading, refresh } = useContentScriptData<RefreshMessageResponse>({
@@ -50,154 +36,5 @@ export default function App() {
       <Separator />
       <div className="text-muted-foreground text-xs">Made with ❤️ for Emma</div>
     </div>
-  );
-}
-
-function CalendarExporter(props: {
-  refresh: () => void;
-  schedule: ScheduledShiftsData;
-  employee: Employee;
-}) {
-  const [checked, setChecked] = useState<Record<string, boolean>>({});
-  const [includePlannedLeave, setIncludePlannedLeave] = useState(false);
-
-  const events = convertToEventAttributes(props.schedule, includePlannedLeave);
-
-  const eventsTreeData: TreeNode[] = Object.entries(groupEventsByMonth(events))
-    .map(([month, events]) => buildSubtreeForMonth(month, events))
-    .filter((treeNode) => !!treeNode);
-
-  const handleDownload = async () => {
-    const selectedEvents = events.filter((event) => checked[event.uid!]);
-    if (selectedEvents.length > 0) {
-      const today = new Date().toISOString().split("T")[0]; // E.g. 2025-12-25
-      await downloadICS(`MySchedule_${today}.ics`, events);
-    }
-  };
-
-  const handleCheckAll = (checked: boolean) => {
-    setChecked(
-      events.reduce(
-        (acc, event) => {
-          acc[event.uid!] = checked;
-          return acc;
-        },
-        {} as Record<string, boolean>,
-      ),
-    );
-  };
-
-  return (
-    <div className="flex flex-col gap-3">
-      <p>Viewing shifts for {props.employee.work_email}</p>
-      <div className="flex items-center space-x-2">
-        <Switch
-          id="include-planned-leave"
-          checked={includePlannedLeave}
-          onCheckedChange={setIncludePlannedLeave}
-        />
-        <Label htmlFor="include-planned-leave">Include planned leave</Label>
-      </div>
-      <ScrollArea className="h-[300px] rounded-md border p-2">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <Checkbox id="select-all" onCheckedChange={handleCheckAll} className="ml-7" />
-            <label htmlFor="select-all" className="cursor-pointer">
-              Select all
-            </label>
-          </div>
-          <Separator />
-          <CheckboxTree data={eventsTreeData} checked={checked} setChecked={setChecked} />
-        </div>
-      </ScrollArea>
-      <Button onClick={props.refresh} variant="outline" className="font-semibold shadow">
-        <RotateCw />
-        Refresh shifts
-      </Button>
-      <Button onClick={handleDownload} className="font-semibold shadow">
-        <CalendarArrowDown />
-        Download as .ics
-      </Button>
-      <p>
-        Once you download events, they will not update automatically! &nbsp;
-        <a href="https://www.cgj.dev/" target="_blank" rel="noreferrer" className="underline">
-          Need help?
-        </a>
-      </p>
-    </div>
-  );
-}
-
-function groupEventsByMonth(events: EventAttributes[]) {
-  return Object.groupBy(events, (event) => {
-    const startDate = new Date(event.start as number); // Epoch milliseconds - see convertToEventAttributes()
-    return startDate.toLocaleDateString("en-US", {
-      month: "long",
-      year: "numeric",
-    });
-  });
-}
-
-function buildSubtreeForMonth(month: string, events?: EventAttributes[]) {
-  if (!events || events.length === 0) return undefined;
-  return {
-    id: month,
-    label: month,
-    children: events
-      .sort((a, b) => (a.start as number) - (b.start as number))
-      .map((event) => ({
-        id: event.uid!,
-        label: `${event.title!} ${new Date(event.start as number).toLocaleString()}`,
-      })),
-  };
-}
-
-function convertToEventAttributes(
-  schedule: ScheduledShiftsData,
-  includePlannedLeave: boolean,
-): EventAttributes[] {
-  return schedule.scheduled_shifts
-    .filter((shift) => includePlannedLeave || isWorkingShift(schedule.payroll_codes, shift))
-    .map((shift) => convertToEventAttribute(schedule, shift));
-}
-
-function convertToEventAttribute(
-  schedule: ScheduledShiftsData,
-  shift: ScheduledShift,
-): EventAttributes {
-  const department = schedule.region_departments.find(
-    (department) => department.id === shift.department,
-  );
-  const occupation = schedule.occupations.find((occupation) => occupation.id === shift.occupation);
-  const payrollCode = schedule.payroll_codes.find((code) => code.id === shift.payroll_code);
-  const classification = [...new Set(payrollCode?.classification ?? [])].join(",");
-  return {
-    start: new Date(shift.start_timestamp).getTime(),
-    end: new Date(shift.end_timestamp).getTime(),
-    title: `${occupation?.desc} ${shift.shift_icon}`,
-    description: `${shift.duration_hours} hours ${payrollCode?.desc} ${classification}.`,
-    uid: shift.id.toString(),
-    categories: [shift.shift_icon],
-    status: "CONFIRMED",
-    busyStatus: "BUSY",
-    classification: "PUBLIC",
-    location: department?.name,
-  };
-}
-
-/**
- * Determines if a scheduled shift is a working shift by checking if its payroll code classification
- * includes "planned leave".
- *
- * @param payroll_codes - An array of payroll code objects used to classify shifts.
- * @param shift - The scheduled shift object that contains details including its payroll code.
- * @return True if the shift is classified as a working shift, otherwise false.
- */
-function isWorkingShift(payroll_codes: PayrollCode[], shift: ScheduledShift): boolean {
-  const payrollCode = payroll_codes.find((code) => code.id === shift.payroll_code);
-  return (
-    payrollCode?.classification.find((code) => {
-      return code.toLowerCase() === "planned leave";
-    }) === undefined
   );
 }

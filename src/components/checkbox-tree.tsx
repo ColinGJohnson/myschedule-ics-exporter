@@ -81,14 +81,5 @@ export function CheckboxTree({ data, checked, setChecked }: CheckboxTreeProps) {
       );
     });
 
-  // return <div>
-  //   <Checkbox id="all" partiallyChecked={false} checked={false} onCheckedChange={() => toggleCheck('all', false, data)}/>
-  //   <label htmlFor="all" className="cursor-pointer">
-  //     Select All
-  //   </label>
-  //   <Separator />
-  //   {renderTree(data)}
-  // </div>;
-
   return <div>{renderTree(data)}</div>;
 }
