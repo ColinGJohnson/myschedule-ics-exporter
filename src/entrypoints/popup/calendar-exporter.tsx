@@ -28,15 +28,7 @@ export function CalendarExporter(props: {
   };
 
   const handleCheckAll = (checked: boolean) => {
-    setChecked(
-      events.reduce(
-        (acc, event) => {
-          acc[event.uid!] = checked;
-          return acc;
-        },
-        {} as Record<string, boolean>,
-      ),
-    );
+    setChecked(mapAllTo(events, checked));
   };
 
   return (
@@ -108,4 +100,21 @@ function buildSubtreeForMonth(month: string, events?: EventAttributes[]) {
         label: `${event.title!} ${new Date(event.start as number).toLocaleString()}`,
       })),
   };
+}
+
+/**
+ * Maps all event UIDs to the given boolean value.
+ *
+ * @param events - List of events with UIDs.
+ * @param checked - The boolean value to map all event UIDs to.
+ * @return Record mapping UIDs to `checked`.
+ */
+function mapAllTo(events: EventAttributes[], checked: boolean): Record<string, boolean> {
+  return events.reduce(
+    (acc, event) => {
+      acc[event.uid!] = checked;
+      return acc;
+    },
+    {} as Record<string, boolean>,
+  );
 }
