@@ -1,8 +1,9 @@
+import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
-import { defineConfig } from "eslint/config";
+import storybook from "eslint-plugin-storybook";
 
 export default defineConfig([
   {
@@ -16,4 +17,7 @@ export default defineConfig([
   },
   tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
+
+  // https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+  ...storybook.configs["flat/recommended"],
 ]);
