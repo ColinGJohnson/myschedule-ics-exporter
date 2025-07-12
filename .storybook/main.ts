@@ -5,9 +5,14 @@ const config: StorybookConfig = {
   addons: [],
   framework: {
     name: "@storybook/react-vite",
-    options: {},
+    options: {
+      builder: {
+        viteConfigPath: ".storybook/vite.config.ts",
+      },
+    },
   },
   core: {
+    builder: "@storybook/builder-vite",
     disableTelemetry: true,
   },
 };
