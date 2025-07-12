@@ -6,7 +6,7 @@ import {
 } from "@/entrypoints/content/refresh-message-response.ts";
 import { NoDataFoundAlert } from "@/components/no-data-found-alert.tsx";
 import { LoadingSpinner } from "@/components/loading-spinner.tsx";
-import { CalendarExporter } from "@/entrypoints/popup/calendar-exporter.tsx";
+import { CalendarExporter } from "@/components/calendar-exporter.tsx";
 
 export default function App() {
   const { response, error, isLoading, refresh } = useContentScriptData<RefreshMessageResponse>({

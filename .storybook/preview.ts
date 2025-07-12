@@ -12,4 +12,5 @@ const preview: Preview = {
   },
 };
 
+// noinspection JSUnusedGlobalSymbols (used by Storybook)
 export default preview;

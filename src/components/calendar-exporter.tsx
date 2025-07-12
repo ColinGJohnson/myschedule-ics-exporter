@@ -33,7 +33,10 @@ export function CalendarExporter(props: {
 
   return (
     <div className="flex flex-col gap-3">
-      <p>Viewing shifts for {props.employee.work_email}</p>
+      <p>
+        Viewing shifts for&#32;
+        <span className="text-muted-foreground">{props.employee.work_email}</span>
+      </p>
       <div className="flex items-center space-x-2">
         <Switch
           id="include-planned-leave"
@@ -63,7 +66,7 @@ export function CalendarExporter(props: {
         Download as .ics
       </Button>
       <p>
-        Once you download events, they will not update automatically! &nbsp;
+        Once you download events, they will not update automatically!&#32;
         <a href="https://www.cgj.dev/" target="_blank" rel="noreferrer" className="underline">
           Need help?
         </a>

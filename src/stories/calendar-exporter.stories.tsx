@@ -1,34 +1,35 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
-import { CalendarExporter } from "@/entrypoints/popup/calendar-exporter.tsx";
+import { PopupLayout } from "@/components/popup-layout.tsx";
+import { CalendarExporter as CalendarExporterComponent } from "@/components/calendar-exporter.tsx";
 
-// https://storybook.js.org/docs/writing-stories#default-export
+// https://storybook.js.org/docs/
 const meta = {
   title: "CalendarExporter",
-  component: CalendarExporter,
-
-  // https://storybook.js.org/docs/configure/story-layout
+  component: CalendarExporterComponent,
+  decorators: [
+    (Story) => (
+      <PopupLayout className="border-2">
+        <Story />
+      </PopupLayout>
+    ),
+  ],
   parameters: {
     layout: "centered",
   },
-
-  // More on argTypes: https://storybook.js.org/docs/api/argtypes
   argTypes: {
     schedule: { control: "object" },
     employee: { control: "object" },
   },
-
-  // Track refresh invocations: https://storybook.js.org/docs/essentials/actions#action-args
   args: { refresh: fn() },
-} satisfies Meta<typeof CalendarExporter>;
+} satisfies Meta<typeof CalendarExporterComponent>;
 
 // noinspection JSUnusedGlobalSymbols (used by Storybook)
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // noinspection JSUnusedGlobalSymbols (used by Storybook)
-export const Primary: Story = {
-  // https://storybook.js.org/docs/writing-stories/args
+export const CalendarExporter: Story = {
   args: {
     schedule: {
       payroll_codes: [],
@@ -75,7 +76,7 @@ export const Primary: Story = {
       home_occupation: 0,
       work_phone: null,
       contact_email: "",
-      work_email: "",
+      work_email: "employee@example.com",
       external_employee_number: "",
       display_str: "",
       links: {
