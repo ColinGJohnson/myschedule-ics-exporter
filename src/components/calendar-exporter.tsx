@@ -1,31 +1,27 @@
 import { ScheduledShiftsData } from "@/entrypoints/content/api/scheduled-shifts-response.ts";
 import { Employee } from "@/entrypoints/content/api/employee.ts";
 import React, { useState } from "react";
-import { CheckboxTree, TreeNode } from "@/components/checkbox-tree.tsx";
-import { downloadIcs } from "@/utils/download-ics.ts";
+import { CheckboxTree, CheckedState, TreeNode } from "@/components/checkbox-tree.tsx";
 import { Switch } from "@/components/ui/switch.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { ScrollArea } from "@/components/ui/scroll-area.tsx";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
 import { Separator } from "@/components/ui/separator.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { CalendarArrowDown, RotateCw } from "lucide-react";
+import { RotateCw } from "lucide-react";
 import { EventAttributes } from "ics";
 import { convertToIcsEvents } from "@/utils/convert-ics.ts";
+import { DownloadIcsButton } from "@/components/download-ics-button.tsx";
 
 export function CalendarExporter(props: {
   refresh: () => void;
   schedule: ScheduledShiftsData;
   employee: Employee;
 }) {
-  const [checked, setChecked] = useState<Record<string, boolean>>({});
+  const [checked, setChecked] = useState<CheckedState>({});
   const [includePlannedLeave, setIncludePlannedLeave] = useState(false);
   const events = convertToIcsEvents(props.schedule, includePlannedLeave);
-
-  const handleDownload = async () => {
-    const selectedEvents = events.filter((event) => checked[event.uid!]);
-    await downloadIcs(selectedEvents);
-  };
+  const selected = events.filter((event) => checked[event.uid!]);
 
   const handleCheckAll = (checked: boolean) => {
     setChecked(mapAllTo(events, checked));
@@ -61,10 +57,7 @@ export function CalendarExporter(props: {
         <RotateCw />
         Refresh shifts
       </Button>
-      <Button onClick={handleDownload} className="font-semibold shadow">
-        <CalendarArrowDown />
-        Download as .ics
-      </Button>
+      <DownloadIcsButton events={selected} />
       <p>
         Once you download events, they will not update automatically!&#32;
         <a href="https://www.cgj.dev/" target="_blank" rel="noreferrer" className="underline">
