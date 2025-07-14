@@ -1,7 +1,8 @@
 # MySchedule ICS Exporter
 
 ![License](https://img.shields.io/github/license/ColinGJohnson/myschedule-ics-exporter)
-![Build status](https://github.com/ColinGJohnson/myschedule-ics-exporter/actions/workflows/build-zip.yml/badge.svg)
+![Extension build status](https://github.com/ColinGJohnson/myschedule-ics-exporter/actions/workflows/build-zip.yml/badge.svg)
+![Test page build status](https://github.com/ColinGJohnson/myschedule-ics-exporter/actions/workflows/deploy-test-page.yml/badge.svg)
 
 A browser extension for downloading calendar events from [Island Health's MySchedule website](https://myschedule.islandhealth.ca/) in [iCalendar format](https://en.wikipedia.org/wiki/ICalendar).
 
@@ -68,6 +69,9 @@ pnpm dev
 
 # Start the API test page development server
 pnpm dev:api
+
+# Start the component storybook
+pnpm 
 ```
 
 ## Test Page

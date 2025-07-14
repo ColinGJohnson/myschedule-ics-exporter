@@ -22,13 +22,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Zip extensions
+      - name: Build myschedule-api
+        run: pnpm --filter @cgj/myschedule-api build:lib
+
+      - name: Build and zip extensions
         run: |
-          pnpm zip
-          pnpm zip:firefox
+          pnpm --filter @cgj/myschedule-ics-exporter build
+          pnpm --filter @cgj/myschedule-ics-exporter zip
+          pnpm --filter @cgj/myschedule-ics-exporter zip:firefox
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          path: .output/*.zip
+          path: extension/.output/*.zip
           include-hidden-files: true
