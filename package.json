@@ -4,8 +4,12 @@
   "version": "0.0.0",
   "scripts": {
     "build": "pnpm -r build",
+    "clean": "rimraf myschedule-api/dist extension/.wxt extension/.output",
     "dev": "pnpm --filter @cgj/myschedule-ics-exporter dev",
     "dev:api": "pnpm --filter @cgj/myschedule-api dev"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.5"
   },
   "packageManager": "pnpm@10.11.0"
 }

@@ -76,7 +76,9 @@ pnpm
 
 ## Test Page
 
-A test page is available for developers to test the extension without needing access to the MySchedule website. The test page provides static mock data that mimics the structure of the MySchedule website and can be accessed at [https://ColinGJohnson.github.io/myschedule-ics-exporter/](https://colingj.github.io/myschedule-ics-exporter/).
+A test page is available to test the extension without needing access to the MySchedule website. 
+
+It provides static mock data that mimics the structure of the MySchedule website and can be accessed at [https://ColinGJohnson.github.io/myschedule-ics-exporter/](https://ColinGJohnson.github.io/myschedule-ics-exporter/).
 
 ## Dependencies
 

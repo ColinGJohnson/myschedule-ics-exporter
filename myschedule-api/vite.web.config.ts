@@ -2,6 +2,8 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 
 export default defineConfig({
+  // Must match the GitHub repository name for hosting via GitHub Pages
+  base: "/myschedule-ics-exporter/",
   build: {
     outDir: "dist/web",
     emptyOutDir: true,

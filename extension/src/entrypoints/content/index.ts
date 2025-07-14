@@ -6,6 +6,7 @@ const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes in milliseconds
 
 export default defineContentScript({
   matches: [
+    "https://colingjohnson.github.io/myschedule-ics-exporter/",
     "https://myschedule.islandhealth.ca/*",
     "https://myschedule.fraserhealth.ca/*",
     "https://myschedule.vch.ca/*",

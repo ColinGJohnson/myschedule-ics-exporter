@@ -10,7 +10,7 @@ export default defineConfig({
       formats: ["es"]
     },
     outDir: "dist/lib",
-    emptyOutDir: true,
+    emptyOutDir: false,
     sourcemap: true,
     rollupOptions: {
       external: ["window", "document"],
