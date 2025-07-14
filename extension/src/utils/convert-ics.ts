@@ -2,7 +2,7 @@ import {
   PayrollCode,
   ScheduledShift,
   ScheduledShiftsData,
-} from "../entrypoints/content/api/scheduled-shifts-response.ts";
+} from "@cgj/myschedule-api";
 import { EventAttributes } from "ics";
 
 /**

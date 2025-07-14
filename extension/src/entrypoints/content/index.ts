@@ -1,9 +1,5 @@
-import { Employee } from "./api/employee.ts";
-import { fetchScheduledShifts } from "./api/scheduled-shifts-api.ts";
-import {
-  REFRESH_REQUEST_MESSAGE,
-  RefreshMessageResponse,
-} from "./refresh-message-response.ts";
+import { Employee, fetchScheduledShifts } from "@cgj/myschedule-api";
+import { REFRESH_REQUEST_MESSAGE, RefreshMessageResponse } from "./refresh-message-response.ts";
 
 const cache: Map<string, { data: RefreshMessageResponse; timestamp: number }> = new Map();
 const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes in milliseconds

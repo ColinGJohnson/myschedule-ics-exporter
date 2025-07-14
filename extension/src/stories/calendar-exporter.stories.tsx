@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 import { PopupLayout } from "../components/popup-layout.tsx";
 import { CalendarExporter as CalendarExporterComponent } from "../components/calendar-exporter.tsx";
-import { mockEmployee, mockScheduledShiftsData } from "./mock-myschedule-data.ts";
+import { mockEmployee, mockScheduledShiftsData } from "@cgj/myschedule-api";
 
 // https://storybook.js.org/docs/
 const meta = {

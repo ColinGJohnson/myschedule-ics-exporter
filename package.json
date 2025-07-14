@@ -1,0 +1,11 @@
+{
+  "name": "myschedule-ics-exporter-root",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "pnpm --filter @cgj/myschedule-ics-exporter dev",
+    "dev:api": "pnpm --filter @cgj/myschedule-api dev"
+  },
+  "packageManager": "pnpm@10.11.0"
+}

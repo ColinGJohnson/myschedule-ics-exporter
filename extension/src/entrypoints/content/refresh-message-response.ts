@@ -1,5 +1,4 @@
-import { Employee } from "./api/employee.ts";
-import { ScheduledShiftsResponse } from "./api/scheduled-shifts-response.ts";
+import { Employee, ScheduledShiftsResponse } from "@cgj/myschedule-api";
 
 export const REFRESH_REQUEST_MESSAGE = "REFRESH_DATA";
 

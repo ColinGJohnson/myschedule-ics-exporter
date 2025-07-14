@@ -1,5 +1,4 @@
-import { ScheduledShiftsData } from "../entrypoints/content/api/scheduled-shifts-response.ts";
-import { Employee } from "../entrypoints/content/api/employee.ts";
+import { ScheduledShiftsData, Employee } from "@cgj/myschedule-api";
 import React, { useState } from "react";
 import { CheckboxTree, CheckedState, TreeNode } from "./checkbox-tree.tsx";
 import { Switch } from "./ui/switch.tsx";
