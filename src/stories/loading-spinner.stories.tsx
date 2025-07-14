@@ -4,7 +4,7 @@ import { LoadingSpinner as LoadingSpinnerComponent } from "@/components/loading-
 
 // https://storybook.js.org/docs/
 const meta = {
-  title: "LoadingSpinnerStories",
+  title: "LoadingSpinner",
   component: LoadingSpinnerComponent,
   decorators: [
     (Story) => (
@@ -22,6 +22,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const LoadingSpinnerStories: Story = {
+export const LoadingSpinner: Story = {
   args: {},
 };
