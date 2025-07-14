@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MySchedule ICS Exporter Test Page</title>
+</head>
+<body>
+  <h1>MySchedule ICS Exporter Test Page</h1>
+
+  <div class="info-box">
+    <p>This page provides static test data for the MySchedule ICS Exporter browser extension. It mimics the structure of the MySchedule website to allow testing without requiring a login.</p>
+    <p>See the <a href="https://github.com/ColinGJohnson/myschedule-ics-exporter">README.md</a> for more info.</p>
+  </div>
+
+  <h2>How to Use This Page</h2>
+  <ol>
+    <li>Install the MySchedule ICS Exporter browser extension</li>
+    <li>Navigate to this page</li>
+    <li>Click on the extension icon in your browser toolbar</li>
+    <li>The extension will load the mock data and allow you to export shifts as an ICS file</li>
+  </ol>
+
+  <!-- This div mimics the structure of the MySchedule website -->
+  <div id="react" data-target-employee=""></div>
+
+  <!-- Import the TypeScript implementation -->
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

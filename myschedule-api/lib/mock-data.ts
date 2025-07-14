@@ -1,5 +1,5 @@
-import { ScheduledShiftsData } from "../entrypoints/content/api/scheduled-shifts-response.ts";
-import { Employee } from "../entrypoints/content/api/employee.ts";
+import type { ScheduledShiftsData } from "./types/scheduled-shifts-response";
+import type { Employee } from "./types/employee";
 
 export const mockScheduledShiftsData: ScheduledShiftsData = {
   payroll_codes: [

@@ -20,7 +20,7 @@ export interface PayrollCode {
   classification: string[];
 }
 
-interface Occupation {
+export interface Occupation {
   id: number;
   display_str: string;
   union: number;
@@ -34,7 +34,7 @@ interface Occupation {
   };
 }
 
-interface RegionDepartment {
+export interface RegionDepartment {
   id: number;
   identifier: string;
   name: string;
@@ -51,14 +51,14 @@ interface RegionDepartment {
   };
 }
 
-interface Facility {
+export interface Facility {
   id: number;
   name: string;
   short_name: string;
   display_str: string;
 }
 
-interface SchedulingTeam {
+export interface SchedulingTeam {
   name: string;
   display_str: string;
   sorting_index: number;
@@ -81,7 +81,7 @@ export interface ScheduledShift {
   external_reference_id: string | null;
 }
 
-interface Meta {
+export interface Meta {
   page: number;
   per_page: number;
   total_results: number;

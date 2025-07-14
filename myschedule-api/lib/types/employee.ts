@@ -1,6 +1,6 @@
 /**
- * Observed structure of data-target-employee attribute on
- * https://myschedule.islandhealth.ca/api/v1/schedule-calendar/me div#react element.
+ * Observed structure of the `data-target-employee` attribute on
+ * https://myschedule.islandhealth.ca/api/v1/schedule-calendar/me `div#react` element.
  */
 export interface Employee {
   id: number;
@@ -21,7 +21,7 @@ export interface Employee {
   links: Links;
 }
 
-interface HsmsUser {
+export interface HsmsUser {
   id: number;
   username: string;
   first_name: string;
@@ -43,6 +43,6 @@ interface HsmsUser {
   display_str: string;
 }
 
-interface Links {
+export interface Links {
   department: string;
 }

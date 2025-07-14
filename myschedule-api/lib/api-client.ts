@@ -1,4 +1,4 @@
-import { ScheduledShiftsResponse } from "./scheduled-shifts-response.ts";
+import type { ScheduledShiftsResponse } from "./types/scheduled-shifts-response";
 
 interface ApiResponse {
   body?: ScheduledShiftsResponse;
