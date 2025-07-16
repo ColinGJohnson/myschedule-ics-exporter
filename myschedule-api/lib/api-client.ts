@@ -1,4 +1,4 @@
-import type { ScheduledShiftsResponse } from "./types/scheduled-shifts-response";
+import type { ScheduledShiftsData, ScheduledShiftsResponse } from "./types/scheduled-shifts-response";
 
 interface ApiResponse {
   body?: ScheduledShiftsResponse;
@@ -10,6 +10,13 @@ export async function fetchScheduledShifts(
   year: number,
   monthIndex: number,
 ): Promise<ApiResponse> {
+
+  // Facilitates mocking the MySchedule API on the test page
+  const mockResponse = getMockResponse();
+  if (mockResponse) {
+    return mockResponse;
+  }
+
   try {
     const response = await fetch(buildFetchUrl(employeeId, year, monthIndex), {
       method: "GET",
@@ -54,4 +61,15 @@ function buildFetchUrl(employeeId: number, year: number, monthIndex: number, lim
   url.searchParams.append("limit", limit.toString());
 
   return url.toString();
+}
+
+function getMockResponse(): ApiResponse | undefined {
+  const reactElement = document.getElementById('react');
+  if (reactElement) {
+    const mockData = reactElement.dataset.mockApiResponse;
+    if (mockData) {
+      return { body: { data: JSON.parse(mockData) as ScheduledShiftsData } }
+    }
+  }
+  return undefined;
 }

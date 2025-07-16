@@ -6,11 +6,10 @@ import { Label } from "./ui/label.tsx";
 import { ScrollArea } from "./ui/scroll-area.tsx";
 import { Checkbox } from "./ui/checkbox.tsx";
 import { Separator } from "./ui/separator.tsx";
-import { Button } from "./ui/button.tsx";
-import { RotateCw } from "lucide-react";
 import { EventAttributes } from "ics";
 import { convertToIcsEvents } from "../utils/convert-ics.ts";
 import { DownloadIcsButton } from "./download-ics-button.tsx";
+import { RefreshButton } from "./RefreshButton.tsx";
 
 export function CalendarExporter(props: {
   refresh: () => void;
@@ -52,10 +51,7 @@ export function CalendarExporter(props: {
           <CheckboxTree data={createTree(events)} checked={checked} setChecked={setChecked} />
         </div>
       </ScrollArea>
-      <Button onClick={props.refresh} variant="outline" className="font-semibold shadow">
-        <RotateCw />
-        Refresh shifts
-      </Button>
+      <RefreshButton refresh={props.refresh} />
       <DownloadIcsButton events={selected} />
       <p>
         Once you download events, they will not update automatically!&#32;

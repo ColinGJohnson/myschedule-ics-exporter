@@ -37,7 +37,7 @@ export function useContentScriptData<T>(message: unknown) {
 
   // Called every time the popup opens
   useEffect(() => {
-    refresh();
+    void refresh();
   }, []);
 
   return { response: data, error, isLoading, refresh };

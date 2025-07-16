@@ -21,7 +21,6 @@ export default defineContentScript({
         }
 
         if (!employee) {
-          console.info("No employee data found on the current page.");
           sendResponse({});
           return;
         }

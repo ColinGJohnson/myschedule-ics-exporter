@@ -18,7 +18,7 @@ export default function App() {
   }
 
   if (error || response?.error || !response?.shifts?.data || !response?.employee) {
-    return <NoDataFoundAlert />;
+    return <NoDataFoundAlert refresh={refresh} />;
   }
 
   return (

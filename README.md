@@ -69,12 +69,11 @@ pnpm dev
 
 # Start the API test page development server
 pnpm dev:api
-
-# Start the component storybook
-pnpm 
 ```
 
-## Test Page
+There are additional extension-specific scripts in `extension/package.json`.
+
+### Test Page
 
 A test page is available to test the extension without needing access to the MySchedule website. 
 
