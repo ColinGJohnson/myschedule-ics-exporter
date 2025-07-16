@@ -4,13 +4,19 @@ import React from "react";
 
 interface RefreshButtonProps {
   refresh: () => void;
+  showText?: boolean;
 }
 
 export const RefreshButton = (props: RefreshButtonProps) => {
   return (
-    <Button onClick={props.refresh} variant="outline" className="font-semibold shadow">
+    <Button
+      onClick={props.refresh}
+      variant="outline"
+      className="font-semibold shadow"
+      title="Refresh data"
+    >
       <RotateCw />
-      Refresh data
+      {props.showText ?? "Refresh data"}
     </Button>
   );
 };

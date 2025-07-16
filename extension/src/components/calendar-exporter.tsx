@@ -51,10 +51,14 @@ export function CalendarExporter(props: {
           <CheckboxTree data={createTree(events)} checked={checked} setChecked={setChecked} />
         </div>
       </ScrollArea>
-      <RefreshButton refresh={props.refresh} />
-      <DownloadIcsButton events={selected} />
+      <div className="flex items-center justify-between gap-2">
+        <RefreshButton refresh={props.refresh} showText={false} />
+        <div className="flex grow flex-col items-stretch justify-center">
+          <DownloadIcsButton events={selected} />
+        </div>
+      </div>
       <p>
-        Once you download events, they will not update automatically!&#32;
+        Downloaded events won't update automatically!&#32;
         <a href="https://www.cgj.dev/" target="_blank" rel="noreferrer" className="underline">
           Need help?
         </a>
