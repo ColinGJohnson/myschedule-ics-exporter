@@ -1,5 +1,5 @@
 {
-  "name": "myschedule-ics-exporter-root",
+  "name": "@cgj/myschedule-ics-exporter-root",
   "private": true,
   "version": "0.0.0",
   "scripts": {
