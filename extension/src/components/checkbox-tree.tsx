@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { CheckboxTreeNode } from "./checkbox-tree-node.tsx";
 
 export type ExpandedState = Record<string, boolean>;
-export type CheckedState = Record<string, boolean>;
+export type TreeCheckedState = Record<string, boolean>;
 
 export interface TreeNode {
   id: string;
@@ -12,8 +12,8 @@ export interface TreeNode {
 
 interface CheckboxTreeProps {
   data: TreeNode[];
-  checked: CheckedState;
-  setChecked: Dispatch<SetStateAction<CheckedState>>;
+  checked: TreeCheckedState;
+  setChecked: Dispatch<SetStateAction<TreeCheckedState>>;
 }
 
 export function CheckboxTree({ data, checked, setChecked }: CheckboxTreeProps) {
@@ -63,8 +63,8 @@ export function CheckboxTree({ data, checked, setChecked }: CheckboxTreeProps) {
 const getUpdatesForChildren = (
   nodes: TreeNode[] | undefined,
   checkState: boolean,
-): CheckedState => {
-  const updates: CheckedState = {};
+): TreeCheckedState => {
+  const updates: TreeCheckedState = {};
 
   nodes?.forEach((node) => {
     updates[node.id] = checkState;

@@ -13,10 +13,10 @@ export const RefreshButton = (props: RefreshButtonProps) => {
       onClick={props.refresh}
       variant="outline"
       className="font-semibold shadow"
-      title="Refresh data"
+      title="Refresh"
     >
       <RotateCw />
-      {props.showText ?? "Refresh data"}
+      {props.showText ?? "Refresh"}
     </Button>
   );
 };

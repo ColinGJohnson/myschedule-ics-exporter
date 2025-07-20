@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert.tsx";
 import { Info } from "lucide-react";
-import { RefreshButton } from "./RefreshButton.tsx";
+import { RefreshButton } from "./refresh-button.tsx";
 
 export interface NoDataFoundAlertProps {
   refresh: () => void;
