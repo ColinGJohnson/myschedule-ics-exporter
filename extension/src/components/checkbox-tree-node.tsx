@@ -51,7 +51,7 @@ export const CheckboxTreeNode = ({
             onCheckedChange={() => toggleCheck(node.id, hasChildren, node.children)}
           />
         </div>
-        <label htmlFor={node.id} className="cursor-pointer">
+        <label htmlFor={node.id} className="cursor-pointer text-sm">
           {node.label}
         </label>
       </div>

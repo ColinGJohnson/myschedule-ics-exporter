@@ -136,7 +136,7 @@ export const mockEmployee: Employee = {
     number_of_successful_logins: 245,
     last_activity_timestamp: "2024-01-15T16:30:00-08:00",
     last_password_reset_timestamp: "2023-07-01T00:00:00-08:00",
-    display_str: "",
+    display_str: "Display Name",
   },
   union: 1,
   seniority_sort: 1000,

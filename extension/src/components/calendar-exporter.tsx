@@ -1,8 +1,6 @@
 import { Employee, ScheduledShiftsData } from "@cgj/myschedule-api";
 import React, { useState } from "react";
 import { CheckboxTree, TreeCheckedState, TreeNode } from "./checkbox-tree.tsx";
-import { Switch } from "./ui/switch.tsx";
-import { Label } from "./ui/label.tsx";
 import { ScrollArea } from "./ui/scroll-area.tsx";
 import { Checkbox } from "./ui/checkbox.tsx";
 import { Separator } from "./ui/separator.tsx";
@@ -10,6 +8,7 @@ import { EventAttributes } from "ics";
 import { convertToIcsEvents } from "../utils/convert-ics.ts";
 import { DownloadIcsButton } from "./download-ics-button.tsx";
 import { RefreshButton } from "./refresh-button.tsx";
+import { ShiftTypeFilter } from "./shift-type-filter.tsx";
 
 export function CalendarExporter(props: {
   refresh: () => void;
@@ -17,9 +16,13 @@ export function CalendarExporter(props: {
   employee: Employee;
 }) {
   const [checked, setChecked] = useState<TreeCheckedState>({});
-  const [includePlannedLeave, setIncludePlannedLeave] = useState(false);
-  const events = convertToIcsEvents(props.schedule, includePlannedLeave);
+  const [selectedPayrollCodeIds, setSelectedPayrollCodeIds] = useState<number[]>(
+    getInitialFilter(props.schedule),
+  );
+
+  const events = convertToIcsEvents(props.schedule, selectedPayrollCodeIds);
   const selected = events.filter((event) => checked[event.uid!]);
+
   const handleCheckAll = (checked: boolean) => {
     setChecked(mapAllTo(events, checked));
   };
@@ -27,47 +30,39 @@ export function CalendarExporter(props: {
   return (
     <div className="flex flex-col gap-3">
       <p>
-        Viewing shifts for&#32;
-        <span className="text-muted-foreground">{props.employee.work_email}</span>
+        {props.employee.display_str}
+        <span className="text-muted-foreground">({props.employee.work_email})</span>
       </p>
-
-      <div className="flex items-center space-x-2">
-        <Switch
-          id="include-planned-leave"
-          checked={includePlannedLeave}
-          onCheckedChange={setIncludePlannedLeave}
-        />
-        <Label htmlFor="include-planned-leave">Include planned leave</Label>
-      </div>
+      <ShiftTypeFilter
+        payrollCodes={props.schedule.payroll_codes}
+        selectedPayrollCodeIds={selectedPayrollCodeIds}
+        setSelectedPayrollCodeIds={setSelectedPayrollCodeIds}
+      />
       <ScrollArea className="h-[300px] rounded-md border p-2">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <Checkbox
-              id="select-all"
-              checked={events.length === selected.length}
-              onCheckedChange={handleCheckAll}
-              className="ml-7"
-            />
-            <label htmlFor="select-all" className="cursor-pointer">
-              Select all
-            </label>
+        {selectedPayrollCodeIds.length > 0 && (
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="select-all"
+                checked={events.length === selected.length}
+                onCheckedChange={handleCheckAll}
+                className="ml-7"
+              />
+              <label htmlFor="select-all" className="cursor-pointer text-sm">
+                Select all
+              </label>
+            </div>
+            <Separator />
+            <CheckboxTree data={createTree(events)} checked={checked} setChecked={setChecked} />
           </div>
-          <Separator />
-          <CheckboxTree data={createTree(events)} checked={checked} setChecked={setChecked} />
-        </div>
+        )}
       </ScrollArea>
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-center justify-between gap-3">
         <RefreshButton refresh={props.refresh} showText={false} />
         <div className="flex grow flex-col items-stretch justify-center">
           <DownloadIcsButton events={selected} />
         </div>
       </div>
-      <p>
-        Downloaded events won't update automatically!&#32;
-        <a href="https://www.cgj.dev/" target="_blank" rel="noreferrer" className="underline">
-          Need help?
-        </a>
-      </p>
     </div>
   );
 }
@@ -117,4 +112,13 @@ function mapAllTo(events: EventAttributes[], checked: boolean): Record<string, b
     },
     {} as Record<string, boolean>,
   );
+}
+
+/**
+ * Determines an initial state for the payroll code filter dropdown.
+ */
+function getInitialFilter(schedule: ScheduledShiftsData) {
+  return schedule.payroll_codes
+    .map((code) => code.id)
+    .filter((value, index, array) => array.indexOf(value) === index);
 }

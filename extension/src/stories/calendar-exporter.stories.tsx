@@ -22,7 +22,11 @@ const meta = {
     schedule: { control: "object" },
     employee: { control: "object" },
   },
-  args: { refresh: fn() },
+  args: {
+    refresh: fn(),
+    schedule: mockScheduledShiftsData,
+    employee: mockEmployee,
+  },
 } satisfies Meta<typeof CalendarExporterComponent>;
 
 // noinspection JSUnusedGlobalSymbols (used by Storybook)
@@ -30,9 +34,4 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // noinspection JSUnusedGlobalSymbols (used by Storybook)
-export const CalendarExporter: Story = {
-  args: {
-    schedule: mockScheduledShiftsData,
-    employee: mockEmployee,
-  },
-};
+export const CalendarExporter: Story = {};

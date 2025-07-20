@@ -9,12 +9,7 @@ interface RefreshButtonProps {
 
 export const RefreshButton = (props: RefreshButtonProps) => {
   return (
-    <Button
-      onClick={props.refresh}
-      variant="outline"
-      className="font-semibold shadow"
-      title="Refresh"
-    >
+    <Button onClick={props.refresh} variant="outline" className="font-semibold" title="Refresh">
       <RotateCw />
       {props.showText ?? "Refresh"}
     </Button>

@@ -1,8 +1,4 @@
-import {
-  PayrollCode,
-  ScheduledShift,
-  ScheduledShiftsData,
-} from "@cgj/myschedule-api";
+import { ScheduledShift, ScheduledShiftsData } from "@cgj/myschedule-api";
 import { EventAttributes } from "ics";
 
 /**
@@ -10,15 +6,15 @@ import { EventAttributes } from "ics";
  * by https://www.npmjs.com/package/ics.
  *
  * @param schedule - Scheduled shifts from MySchedule.
- * @param includePlannedLeave - Whether shifts with as payroll code "planned leave" should be included.
+ * @param selectedPayrollCodeIds - Other payroll codes are filtered out.
  * @return A list of ICS calendar events.
  */
 export function convertToIcsEvents(
   schedule: ScheduledShiftsData,
-  includePlannedLeave: boolean,
+  selectedPayrollCodeIds: number[],
 ): EventAttributes[] {
   return schedule.scheduled_shifts
-    .filter((shift) => includePlannedLeave || isWorkingShift(schedule.payroll_codes, shift))
+    .filter((shift) => selectedPayrollCodeIds.includes(shift.payroll_code))
     .map((shift) => convertToEventAttribute(schedule, shift));
 }
 
@@ -44,21 +40,4 @@ function convertToEventAttribute(
     classification: "PUBLIC",
     location: department?.name,
   };
-}
-
-/**
- * Determines if a scheduled shift is a working shift by checking if its payroll code classification
- * includes "planned leave".
- *
- * @param payroll_codes - An array of payroll code objects used to classify shifts.
- * @param shift - The scheduled shift object that contains details including its payroll code.
- * @return True if the shift is classified as a working shift, otherwise false.
- */
-function isWorkingShift(payroll_codes: PayrollCode[], shift: ScheduledShift): boolean {
-  const payrollCode = payroll_codes.find((code) => code.id === shift.payroll_code);
-  return (
-    payrollCode?.classification.find((code) => {
-      return code.toLowerCase() === "planned leave";
-    }) === undefined
-  );
 }
