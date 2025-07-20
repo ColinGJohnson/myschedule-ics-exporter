@@ -21,7 +21,7 @@ export function CalendarExporter(props: {
   );
 
   const events = convertToIcsEvents(props.schedule, selectedPayrollCodeIds);
-  const selected = events.filter((event) => checked[event.uid!]);
+  const selected = getSelectedEvents(events, props.schedule, selectedPayrollCodeIds, checked);
 
   const handleCheckAll = (checked: boolean) => {
     setChecked(mapAllTo(events, checked));
@@ -67,6 +67,46 @@ export function CalendarExporter(props: {
   );
 }
 
+/**
+ * Determines an initial state for the payroll code filter dropdown.
+ */
+function getInitialFilter(schedule: ScheduledShiftsData) {
+  return schedule.payroll_codes
+    .map((code) => code.id)
+    .filter((value, index, array) => array.indexOf(value) === index);
+}
+
+function getSelectedEvents(
+  events: EventAttributes[],
+  schedule: ScheduledShiftsData,
+  selectedPayrollCodeIds: number[],
+  checked: TreeCheckedState,
+) {
+  return events.filter((event) => {
+    const payrollCode = schedule.scheduled_shifts.find(
+      (shift) => shift.id.toString() === event.uid,
+    )!.payroll_code;
+    return selectedPayrollCodeIds.includes(payrollCode) && checked[event.uid!];
+  });
+}
+
+/**
+ * Maps all event UIDs to the given boolean value.
+ *
+ * @param events - List of events with UIDs.
+ * @param checked - The boolean value to map all event UIDs to.
+ * @return Record mapping UIDs to `checked`.
+ */
+function mapAllTo(events: EventAttributes[], checked: boolean): Record<string, boolean> {
+  return events.reduce(
+    (acc, event) => {
+      acc[event.uid!] = checked;
+      return acc;
+    },
+    {} as Record<string, boolean>,
+  );
+}
+
 function createTree(events: EventAttributes[]): TreeNode[] {
   return Object.entries(groupEventsByMonth(events))
     .map(([month, events]) => buildSubtreeForMonth(month, events))
@@ -95,30 +135,4 @@ function buildSubtreeForMonth(month: string, events?: EventAttributes[]) {
         label: `${event.title!} ${new Date(event.start as number).toLocaleString()}`,
       })),
   };
-}
-
-/**
- * Maps all event UIDs to the given boolean value.
- *
- * @param events - List of events with UIDs.
- * @param checked - The boolean value to map all event UIDs to.
- * @return Record mapping UIDs to `checked`.
- */
-function mapAllTo(events: EventAttributes[], checked: boolean): Record<string, boolean> {
-  return events.reduce(
-    (acc, event) => {
-      acc[event.uid!] = checked;
-      return acc;
-    },
-    {} as Record<string, boolean>,
-  );
-}
-
-/**
- * Determines an initial state for the payroll code filter dropdown.
- */
-function getInitialFilter(schedule: ScheduledShiftsData) {
-  return schedule.payroll_codes
-    .map((code) => code.id)
-    .filter((value, index, array) => array.indexOf(value) === index);
 }
