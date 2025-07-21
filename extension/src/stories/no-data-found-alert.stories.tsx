@@ -5,7 +5,7 @@ import { fn } from "storybook/test";
 
 // https://storybook.js.org/docs/
 const meta = {
-  title: "NoDataFoundAlert",
+  title: "popup/NoDataFoundAlert",
   component: DataNotFoundAlertComponent,
   decorators: [
     (Story) => (

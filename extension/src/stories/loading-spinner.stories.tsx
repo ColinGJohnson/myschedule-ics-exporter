@@ -4,7 +4,7 @@ import { LoadingSpinner as LoadingSpinnerComponent } from "../components/loading
 
 // https://storybook.js.org/docs/
 const meta = {
-  title: "LoadingSpinner",
+  title: "popup/LoadingSpinner",
   component: LoadingSpinnerComponent,
   decorators: [
     (Story) => (

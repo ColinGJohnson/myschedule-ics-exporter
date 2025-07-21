@@ -6,7 +6,7 @@ import { mockEmployee, mockScheduledShiftsData } from "@cgj/myschedule-api";
 
 // https://storybook.js.org/docs/
 const meta = {
-  title: "CalendarExporter",
+  title: "popup/CalendarExporter",
   component: CalendarExporterComponent,
   decorators: [
     (Story) => (
