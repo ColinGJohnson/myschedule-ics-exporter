@@ -9,7 +9,7 @@ export interface NoDataFoundAlertProps {
 
 export function NoDataFoundAlert(props: NoDataFoundAlertProps) {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="mt-2 flex flex-col gap-3">
       <Alert variant="default">
         <Info />
         <AlertTitle>No shifts found on this page</AlertTitle>

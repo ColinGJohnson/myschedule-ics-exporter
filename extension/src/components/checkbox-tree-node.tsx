@@ -25,6 +25,7 @@ export const CheckboxTreeNode = ({
   const allChildrenChecked = !hasChildren || node.children!.every((child) => checked[child.id]);
   const isChecked = checked[node.id] || anyChildChecked || false;
   const isPartiallyChecked = anyChildChecked && !allChildrenChecked;
+  const isExpanded = expanded[node.id];
 
   return (
     <div key={node.id} className={className}>
@@ -34,10 +35,9 @@ export const CheckboxTreeNode = ({
             <button
               type="button"
               onClick={() => toggleExpand(node.id)}
-              className="p-1"
-              aria-label={expanded[node.id] ? "Collapse" : "Expand"}
+              aria-label={isExpanded ? "Collapse" : "Expand"}
             >
-              {expanded[node.id] ? (
+              {isExpanded ? (
                 <LucideChevronDown className="h-4 w-4" />
               ) : (
                 <LucideChevronRight className="h-4 w-4" />
@@ -56,8 +56,8 @@ export const CheckboxTreeNode = ({
         </label>
       </div>
 
-      {expanded[node.id] && hasChildren && (
-        <div className="mt-1 mb-2 ml-9 flex flex-col gap-1 border-l-1 border-b-gray-200">
+      {isExpanded && hasChildren && (
+        <div className="mt-1 mb-2 ml-7 flex flex-col gap-1 border-l-1 border-b-gray-200">
           {node.children!.map((childNode) => (
             <CheckboxTreeNode
               key={childNode.id}

@@ -30,8 +30,8 @@ export function CalendarExporter(props: {
   return (
     <div className="flex flex-col gap-3">
       <p>
-        {props.employee.display_str}
-        <span className="text-muted-foreground">({props.employee.work_email})</span>
+        {props.employee.display_str}{" "}
+        <span className="text-muted-foreground">{props.employee.work_email}</span>
       </p>
       <ShiftTypeFilter
         payrollCodes={props.schedule.payroll_codes}
@@ -46,7 +46,7 @@ export function CalendarExporter(props: {
                 id="select-all"
                 checked={events.length === selected.length}
                 onCheckedChange={handleCheckAll}
-                className="ml-7"
+                className="ml-5"
               />
               <label htmlFor="select-all" className="cursor-pointer text-sm">
                 Select all
@@ -127,7 +127,7 @@ function buildSubtreeForMonth(month: string, events?: EventAttributes[]) {
   if (!events || events.length === 0) return undefined;
   return {
     id: month,
-    label: month,
+    label: `${month} - ${events.length} shifts`,
     children: events
       .sort((a, b) => (a.start as number) - (b.start as number))
       .map((event) => ({
