@@ -1,7 +1,10 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { CheckboxTreeNode } from "./checkbox-tree-node.tsx";
 
-export type ExpandedState = Record<string, boolean>;
+/**
+ * A key-value mapping where each key is the ID of a node, and the value is the check state
+ * applied to that node.
+ */
 export type TreeCheckedState = Record<string, boolean>;
 
 export interface TreeNode {
@@ -10,46 +13,37 @@ export interface TreeNode {
   children?: TreeNode[];
 }
 
-interface CheckboxTreeProps {
+export interface CheckboxTreeProps {
   data: TreeNode[];
   checked: TreeCheckedState;
   setChecked: Dispatch<SetStateAction<TreeCheckedState>>;
 }
 
-export function CheckboxTree({ data, checked, setChecked }: CheckboxTreeProps) {
-  const [expanded, setExpanded] = useState<ExpandedState>({});
-
-  const toggleExpand = (id: string) => {
-    setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const toggleCheck = (id: string, isParent: boolean, children?: TreeNode[]) => {
+export const CheckboxTree = ({ data, checked, setChecked }: CheckboxTreeProps) => {
+  const toggleCheck = ({ id, children }: TreeNode) => {
     setChecked((prev) => {
-      const newCheckState = !prev[id];
-      const newChecked = { ...prev, [id]: newCheckState };
-
-      if (isParent && children) {
-        Object.assign(newChecked, getUpdatesForChildren(children, newCheckState));
+      if (children && children.length > 0) {
+        // If the node is a parent, the children determine the checked state
+        const newCheckState = noChildrenChecked(children, checked);
+        return Object.assign({ ...prev }, getUpdatesForChildren(children, newCheckState));
       }
-
-      return newChecked;
+      // If the node is a child, it determines its own checked state
+      const newCheckState = !prev[id];
+      return { ...prev, [id]: newCheckState };
     });
   };
 
   return (
     <div>
       {data.map((node) => (
-        <CheckboxTreeNode
-          key={node.id}
-          node={node}
-          checked={checked}
-          expanded={expanded}
-          toggleExpand={toggleExpand}
-          toggleCheck={toggleCheck}
-        />
+        <CheckboxTreeNode key={node.id} node={node} checked={checked} toggleCheck={toggleCheck} />
       ))}
     </div>
   );
+};
+
+function noChildrenChecked(children: TreeNode[] | undefined, checked: TreeCheckedState) {
+  return !children ? true : children.every((child) => !checked[child.id]);
 }
 
 /**
@@ -57,19 +51,21 @@ export function CheckboxTree({ data, checked, setChecked }: CheckboxTreeProps) {
  *
  * @param nodes - The array of tree nodes to process. If undefined, no updates are made.
  * @param checkState - The desired check state to apply to each node and its children.
- * @returns A key-value mapping where each key is the ID of a node, and the value is the check
- *          state applied to that node.
+ * @returns Updates to the checkbox tree's TreeCheckedState.
  */
-const getUpdatesForChildren = (
+function getUpdatesForChildren(
   nodes: TreeNode[] | undefined,
   checkState: boolean,
-): TreeCheckedState => {
+): TreeCheckedState {
   const updates: TreeCheckedState = {};
 
   nodes?.forEach((node) => {
-    updates[node.id] = checkState;
-    Object.assign(updates, getUpdatesForChildren(node.children, checkState));
+    if (!node.children || node.children.length === 0) {
+      updates[node.id] = checkState;
+    } else {
+      Object.assign(updates, getUpdatesForChildren(node.children, checkState));
+    }
   });
 
   return updates;
-};
+}

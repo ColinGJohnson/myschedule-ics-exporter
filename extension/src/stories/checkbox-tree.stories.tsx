@@ -15,7 +15,7 @@ const sampleTreeData: TreeNode[] = [
       { id: "child1-2", label: "Child 1.2" },
       {
         id: "child1-3",
-        label: "Child 1.3 with Children",
+        label: "Child 1.3",
         children: [
           { id: "grandchild1-3-1", label: "Grandchild 1.3.1" },
           { id: "grandchild1-3-2", label: "Grandchild 1.3.2" },
@@ -31,17 +31,8 @@ const sampleTreeData: TreeNode[] = [
       { id: "child2-2", label: "Child 2.2" },
     ],
   },
-  { id: "parent3", label: "Parent Node 3 (No Children)" },
+  { id: "child3", label: "Child 3" },
 ];
-
-const initialCheckedState: TreeCheckedState = {
-  parent1: true,
-  "child1-1": true,
-  "child1-2": true,
-  "child1-3": true,
-  "grandchild1-3-1": true,
-  "grandchild1-3-2": true,
-};
 
 const CheckboxTreeWithState = ({
   data,
@@ -64,7 +55,7 @@ const meta = {
   },
   args: {
     data: sampleTreeData,
-    initialChecked: initialCheckedState,
+    initialChecked: {},
   },
 } satisfies Meta<typeof CheckboxTreeWithState>;
 
