@@ -5,12 +5,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "clean": "rimraf .wxt .output",
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",
     "build": "wxt build",
     "build:firefox": "wxt build -b firefox",
-    "build:test-page": "cd ../test-page && npm run build",
-    "dev:test-page": "cd ../test-page && npm run dev",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
     "compile": "tsc --noEmit",

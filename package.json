@@ -3,9 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
+    "clean": "pnpm -r clean",
     "build": "pnpm -r build",
-    "clean": "rimraf myschedule-api/dist extension/.wxt extension/.output",
-    "dev": "pnpm --filter @cgj/myschedule-ics-exporter dev",
+    "zip": "pnpm --filter @cgj/myschedule-ics-exporter zip",
+    "zip:firefox": "pnpm --filter @cgj/myschedule-ics-exporter zip:firefox",
+    "dev": "pnpm run build && pnpm --filter @cgj/myschedule-ics-exporter dev",
     "dev:api": "pnpm --filter @cgj/myschedule-api dev"
   },
   "devDependencies": {

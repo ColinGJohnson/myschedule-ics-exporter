@@ -44,30 +44,31 @@ This project is organized as a monorepo using [pnpm workspaces](https://pnpm.io/
 
 ### Setup
 
-```bash
-# Install dependencies for all packages
+Install dependencies for all packages
+```shell
 pnpm install
+```
 
-# Build all packages
-pnpm build
+Build all packages
+```shell
+pnpm run build
+```
 
-# Build just the extension
-pnpm --filter @cgj/myschedule-ics-exporter build
-
-# Build just the API library
-pnpm --filter @cgj/myschedule-api build:lib
-
-# Build just the test page
-pnpm --filter @cgj/myschedule-api build:web
+Package the extension for distribution
+```shell
+pnpm run zip # chrome
+pnpm run zip:firefox
 ```
 
 ### Development Servers
 
+Start the chrome extension development server
 ```bash
-# Start the extension development server
 pnpm dev
+```
 
-# Start the API test page development server
+Start the API test page development server
+```bash
 pnpm dev:api
 ```
 

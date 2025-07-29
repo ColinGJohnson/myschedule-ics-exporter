@@ -16,10 +16,11 @@
     "dist/lib"
   ],
   "scripts": {
-    "dev": "vite",
+    "clean": "rimraf dist",
+    "build": "pnpm run build:lib && pnpm run build:web",
     "build:lib": "tsc -p tsconfig.lib.json && vite build --config vite.lib.config.ts",
     "build:web": "tsc && vite build --config vite.web.config.ts",
-    "build": "pnpm run build:lib && pnpm run build:web",
+    "dev": "vite",
     "preview": "vite preview"
   },
   "devDependencies": {
