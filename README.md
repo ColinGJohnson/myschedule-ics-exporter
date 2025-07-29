@@ -6,6 +6,10 @@
 
 A browser extension for downloading calendar events from [Island Health's MySchedule website](https://myschedule.islandhealth.ca/) in [iCalendar format](https://en.wikipedia.org/wiki/ICalendar).
 
+<p align="center">
+  <img width="400" height="956" alt="image" src="https://github.com/user-attachments/assets/b137cf79-6d8f-4257-a29c-5c1136429aa1" />
+</p>
+
 ## Installation
 
 You can install the MySchedule ICS Downloader extension from *TODO: Chrome web store link coming soon!*.
@@ -28,14 +32,12 @@ You can install the MySchedule ICS Downloader extension from *TODO: Chrome web s
 
 **Note:** Once you download events, they will not update automatically. If your schedule changes, you'll need to export and import the updated schedule again.
 
-## Packages
+## Development
 
-This project is organized as a monorepo using [pnpm workspaces](https://pnpm.io/workspaces) with two main packages:
+This project uses [pnpm workspaces](https://pnpm.io/workspaces) with two packages:
 
 - `myschedule-api`: A library package that provides an API client and types for the MySchedule API, as well as a test page that mocks the MySchedule API.
 - `extension`: The browser extension that users install.
-
-## Development
 
 ### Prerequisites
 
