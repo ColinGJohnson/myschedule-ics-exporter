@@ -1,7 +1,7 @@
 {
   "name": "@cgj/myschedule-api",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "main": "dist/lib/main.js",
   "module": "dist/lib/main.js",
