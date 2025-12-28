@@ -18,8 +18,6 @@ export const PopupLayout = (props: PopupLayoutProps) => {
           <h1 className="text-lg font-semibold">MySchedule Calendar Exporter</h1>
           <div className="flex grow flex-col items-stretch justify-center">{props.children}</div>
         </div>
-        <Separator />
-        <div className="text-muted-foreground text-xs">Made with ❤️ for Emma</div>
       </div>
     </>
   );
