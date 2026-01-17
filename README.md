@@ -12,11 +12,7 @@ A browser extension for downloading calendar events from [Island Health's MySche
 
 ## Installation
 
-You can install the MySchedule ICS Downloader extension from *TODO: Chrome web store link coming soon!*.
-
-1. Click the link above to navigate to the Chrome Web Store page
-2. Click the "Add to Chrome" button
-3. Confirm the installation when prompted
+You can install the MySchedule ICS Downloader extension from the [Chrome web store](https://chromewebstore.google.com/detail/myschedule-ics-downloader/pildbpgaeahiimngghopaloiilboinpc).
 
 ## Usage
 
