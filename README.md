@@ -7,7 +7,7 @@
 A browser extension for downloading calendar events from [Island Health's MySchedule website](https://myschedule.islandhealth.ca/) in [iCalendar format](https://en.wikipedia.org/wiki/ICalendar).
 
 <p align="center">
-  <img width="400" height="956" alt="image" src="https://github.com/user-attachments/assets/b137cf79-6d8f-4257-a29c-5c1136429aa1" />
+  <img width="401" height="478" alt="image" src="https://github.com/user-attachments/assets/b137cf79-6d8f-4257-a29c-5c1136429aa1" />
 </p>
 
 ## Installation
